@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+div {
+    position: absolute;
+    width: 20vh;
+    height: 16vh;
+    font-size: 10vh;
+    line-height: 18vh;
+    padding: 2vh 0;
+    border-radius: 0;
+    top: 5vh; 
+    left: 5vh;
+    text-align: center;
+    color: white;
+    transform: rotate(0deg);
+    background-color: blue;
+    animation-name: monAnimation;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-delay: 1s;
+}        
+        
+@keyframes monAnimation {
+    0% {
+        top: 4vh;
+        left: 4vh;
+        color: white;
+        background-color: blue;
+        border-radius: 0;
+    }
+    25% {
+        left: calc(100% - 25vh);
+        top: 4vh;
+        transform: rotate(720deg);
+        border-radius: 50%;
+        background-color: red;
+    }
+    50% {
+        top: calc(100% - 25vh);
+        left: calc(100% - 25vh);
+        transform: rotate(360deg);
+        border-radius: 50%;
+        background-color: darkviolet;
+    }
+    75% {
+        left: 5vh;
+        top: calc(100% - 25vh);
+        transform: rotate(0deg);
+        border-radius: 0;
+        background-color: darkgreen;
+    }
+}
+        
+    </style>
+</head>
+<body>
+<div>CSS</div>
+</body>
+</html>

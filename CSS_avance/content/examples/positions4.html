@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body {
+    padding: 1vh 1vw;
+    margin: 0;
+    height: 98vh;
+    width: 98vw;
+    font-family: courier;
+    font-size: 4.5vh;
+    line-height: 1.8;
+}
+#container {
+    display: grid;
+    width: 100%;
+    min-height: 45vh;
+    margin: 2vh 0;
+    background: purple;
+    grid-column-gap: 2px;
+    grid-row-gap: 2px;
+    grid-template-columns: 1fr 4fr 1fr 1fr;
+    grid-template-rows: 1fr 5fr 1fr; 
+    grid-template-areas: 
+        "header header header header" 
+        ". main main aside" 
+        "footer footer footer aside";  
+    align-items: stretch;
+    align-content: stretch;
+    justify-content: center;
+    align-content: center;
+}
+#container > * {
+    padding: 2vh;
+    text-align: center;
+}
+main {
+    grid-area: main;
+    color: white;
+    background-color: green;
+}
+header {
+    grid-area: header;
+    color: white;
+    background-color: blue;
+}
+footer {
+    grid-area: footer;
+    color: white;
+    background-color: red;
+}
+aside {
+    grid-area: aside;
+    color: white;
+    background-color: black;
+}
+#zeItem {
+    background-color: rgba(255, 255, 0, 0.7);
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: span 2;
+    z-index: 1;
+}
+    </style>
+    <script src="includeInIFrame.js"></script>
+</head>
+<body>
+
+<div id="container">
+    <header>header</header>
+    <main>main</main>
+    <aside>aside</aside>
+    <footer>footer</footer>
+    <div id="zeItem"></div>
+</div>
+    
+</body>
+</html>

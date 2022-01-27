@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+label {
+    padding: 2vh;
+    display: inline-block;
+    width: 20vh;
+    background-color: black;
+    color: white;
+    border-radius: 2vh 2vh 0 0;
+    cursor: pointer;
+}        
+        
+input {
+    display: none;
+}
+        
+div {
+    display: none;
+    height: 40vh;
+    padding: 2vh;
+    color: white;
+}
+        
+input:checked + div {
+    display: block;
+}
+    </style>
+<script src="includeInIFrame.js"></script>
+</head>
+<body>
+    
+<label for="rad1" style="background-color: red;">Onglet 1</label>    
+<label for="rad2" style="background-color: green;">Onglet 2</label>
+<label for="rad3" style="background-color: blue;">Onglet 3</label>
+
+<input type="radio" name="rad" id="rad1" checked> 
+<div style="background-color: red;">Bloc 1</div>    
+
+<input type="radio" name="rad" id="rad2">
+<div style="background-color: green;">Bloc 2</div>
+
+<input type="radio" name="rad" id="rad3">
+<div style="background-color: blue;">Bloc 3</div>
+
+</body>
+</html>

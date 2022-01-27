@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+div {
+    position: relative;
+    width: 6vh;
+    height: 6vh;
+    margin: 2vh 1vh;
+}   
+div:before {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background-color: darkblue;
+    top: 3vh;
+    left: 3vh;
+    width: 0;
+    height: 0;
+    animation-name: monAnimation;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-timing-function: ease-in-out;    
+}
+div:nth-child(2)::before {
+    animation-delay: 0.125s;
+}
+div:nth-child(3)::before {
+    animation-delay: 0.25s;
+}
+        
+@keyframes monAnimation {
+    0% {
+        width: 0vh;
+        height: 0vh;
+        top: 3vh;
+        left: 3vh;
+    }
+    40% {
+        width: 6vh;
+        height: 6vh;
+        top: 0;
+        left: 0;
+    }
+    80% {
+        width: 0vh;
+        height: 0vh;
+        top: 3vh;
+        left: 3vh;
+    }
+}
+    </style>
+    <script src="includeInIFrame.js"></script>
+
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>

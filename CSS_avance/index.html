@@ -1,0 +1,1186 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="stylesheet" href="../css/slides.css" type="text/css">
+    <script src="./js/slides.js"></script>
+    
+    <script src="./lib/codemirror-5.31.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="../lib/codemirror-5.31.0/lib/codemirror.css">
+ 
+    <script src="./lib/codemirror-5.31.0/mode/javascript/javascript.js"></script>
+    <script src="./lib/codemirror-5.31.0/mode/css/css.js"></script>
+    <script src="./lib/codemirror-5.31.0/mode/xml/xml.js"></script>
+    <script src="./lib/codemirror-5.31.0/mode/htmlmixed/htmlmixed.js"></script>
+    
+    <script src="./js/playground.js"></script>
+    <link rel="stylesheet" href="./css/playground.css">
+    
+    <title>CSS avancé</title>
+    
+</head>
+
+<body>
+
+<mask>
+    <img src="../images/logo_ufc.png" class="top right padding" style="height: 7vh;">
+<!--    <img src="../images/abeille.png" class="top right" style="height: 20vh;">
+    <img src="../images/logo-femto.png" class="top left padding" style="height: 7vh;">-->
+</mask>   
+    
+ 
+    
+<slideshow>
+ 
+    <title>CSS avancé</title>
+        
+    <slide>
+        <title1>@ref{title}</title1>
+    
+        <title2>Cours &ldquo;Langages du Web&rdquo;</title2>
+
+        <title3>Frédéric Dadeau - <a href="mailto:frederic.dadeau@univ-fcomte.fr">frederic.dadeau@univ-fcomte.fr</a></title3>
+
+    </slide>
+
+    
+    <slide>
+        <title>Le CSS avancé</title>
+        <block title="Préambule">
+            <p>On a tous une idée particulière de la notion de CSS avancé...</p>
+            <img src="content/images/css_avance.png" style="width: 70%;">
+        </block>
+        <speech>On commence avec un petit dessin illustratif de M. Luc {Damas}[Dame Asse]</speech>
+    </slide>
+    
+
+    <slide outline class="section" options="no-navigation">
+        <title>Plan du chapitre</title>
+        <speech>
+            Dans ce chapitre, nous ferons un tour d'horizon de techniques avancées avec CSS | 
+            qui complèteront ce que vous avez vu l'an dernier en Licence 2. |
+            Nous commencerons par quelques petits hacks réalisables avec CSS et le DOM. |
+            Puis nous verrons comment réaliser des animations 100% CSS. |
+            Nous enchaînerons avec la notion de responsive design. |
+            Enfin, nous verrons quelques environnements et quelques outils basés sur ce qui 
+            a été présenté dans ce chapitre. 
+        </speech>
+    </slide> 
+
+    <section>Petits hacks avec CSS et le DOM</section>
+        
+    
+    <slide outline class="section currentSection" option="no-navigation">
+        <title>Plan du chapitre</title>
+    </slide>
+    
+    <subsection>Rappels sur le DOM</subsection>
+    
+    <slide>
+        <title>@ref{currentSubsection}</title>
+    
+        <block title="Document Object Model">
+            <p>Le <u>D</u>ocument <u>O</u>bject <u>M</u>odel est une représentation interne du document 
+                HTML en cours d'affichage. </p>
+        <p>Le DOM décrit l'arborescence du document, et permet ainsi d'en désigner les éléments le constituant. </p>
+        </block>
+
+        
+        <block title="Exemple de DOM">
+            
+            <img src="content/images/dom_02.png" style="float: right; margin-top: 2vh; height: 23vh; width: auto;">
+            
+            <div class="playground nocss nojs nooutput h30" data-href="./content/examples/css1-1.html" data-opened="html"></div>
+
+        </block>
+        
+        <speech>
+            Dans la partie gauche, vous pouvez voir le code HTML de l'exemple. |
+            Il contient des entités relativement simples : un titre | 
+            des paragraphes, des divisions (ou blocs) et des images. |
+            Dans la partie droite, vous voyez l'arborescence du DOM correspondant. |
+            A noter que l'on se focalise ici uniquement sur le corps du document, |
+            mais l'arbre DOM représente également l'entête du document (marqueur {<code>&lt;head&gt;</code>}[head]). 
+        </speech>
+        
+    </slide>
+    
+    <slide>
+        <title>Quelques définitions</title>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; justify-items: center; align-items: center;"> 
+            <block title="Noeuds/feuilles">
+                <img src="content/images/dom_noeud_feuille.png">
+            </block>
+            <block title="Les ancêtres/descendants">
+                <img src="content/images/dom_ancetre.png">
+            </block>
+            <block title="Les parents/enfants">
+                <img src="content/images/dom_parent.png">
+            </block>
+            <block title="Les frères (<i>siblings</i>)">
+                <img src="content/images/dom_sibling.png">
+            </block>
+        </div>
+        
+    </slide>
+    
+    
+    <subsection>Rappels sur le CSS</subsection>
+    
+    <slide>
+        <title>@ref{currentSubsection}</title>
+        
+        <p><u>C</u>ascading <u>S</u>tyle <u>S</u>heets s'appuie sur le DOM pour permettre de définir des propriétés 
+            de style. </p>
+        
+        <block title="Quelques définitions">
+            <p>Une feuille de style CSS est une succession de règles de style : </p>
+            <ul>
+                <li>identitiée par un sélecteur </li>
+                <li>contenant une liste de déclarations de style donnant :
+                <ul>
+                    <li>une propriété (par exemple <code>font-size</code>), et </li>
+                    <li>sa valeur associée (par exemple <code>14px</code>) </li>    
+                </ul>
+                sous la forme <code>propriété: valeur;</code></li>    
+            </ul>
+        </block>
+        
+        <speech>
+            CSS s'appuie sur le DOM du document pour définir quel style s'applique à quel élément. |
+            Concrètement, une feuille de style CSS est un ensemble de règles de styles, |
+            chacune étant identifiée par un sélecteur |
+            -décrivant l'ensemble des éléments sur lesquels le style s'applique- |
+            et contenant une liste de déclarations sous la forme propriété{:}[deux-points] valeur.
+        
+        </speech>
+        
+    </slide>
+    
+    <slide>
+        <title>Les sélecteurs</title>
+    
+        <block title="Quelques exemples de sélecteurs">
+            <table>
+                <tr><td>Sélecteur</td><td>Définition</td><td>Exemple</td></tr>
+                <tr>
+                    <td><code>*</code></td>
+                    <td>sélecteur universel</td>
+                    <td><code>&lt;ul&gt;...&lt;/ul&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>#menuItems</code></td>
+                    <td>sélecteur d'identifiant</td>
+                    <td><code>&lt;div id="menuItems"&gt;...&lt;/div&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>.invisible</code></td>
+                    <td>sélecteur de classe</td>
+                    <td><code>&lt;p class="invisible"&gt;...&lt;/p&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code><i>element</i></code></td>
+                    <td>sélecteur d'élément</td>
+                    <td><code>&lt;div&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code><i>[type]</i></code></td>
+                    <td>sélecteur d'attribut</td>
+                    <td><code>&lt;input type="checkbox"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code><i>[type="radio"]</i></code></td>
+                    <td>sélecteur d'attribut</td>
+                    <td><code>&lt;input type="radio"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td colspan="3">+ variantes : <code>^=</code>, <code>$=</code>, <code>*=</code>, <code>~=</code>, etc.</td>
+                </tr>
+                <tr>
+                    <td><code>:hover</code></td>
+                    <td>Pseudo-classe</td>
+                    <td>(survol de la souris sur l'élément)</td>
+                </tr>
+                <tr>
+                    <td colspan="3">+ plein d'autres : <code>disabled</code>, <code>:nth-child</code>, <code>nth-of-type</code>, <code>not(selecteur)</code>, <code>:checked</code>, etc.</td>
+                </tr>
+                <tr>
+                    <td><code>div img</code></td>
+                    <td>sélecteur de descendants</td>
+                    <td><code>&lt;div&gt; &lt;p&gt; ... &lt;img src="..."&gt; &lt;/p&gt; &lt;/div&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>div > p</code></td>
+                    <td>sélecteur d'enfants</td>
+                    <td><code>&lt;div&gt; &lt;p&gt; ... &lt;/p&gt; &lt;/div&gt;</code></td>
+                </tr>
+                 <tr>
+                    <td><code>input + p</code></td>
+                    <td>sélecteur d'adjacents</td>
+                    <td><code>&lt;input type="checkbox"&gt; &lt;p&gt; ... &lt;/p&gt;</code></td>
+                </tr>
+            </table>
+        
+            <p>La liste complète des sélecteurs existants : <br><url>https://www.w3schools.com/cssref/css_selectors.asp</url></p>
+        
+        </block>
+    </slide>
+    
+    
+    <subsection>Form hacks</subsection>
+    
+    <slide>
+        <title>@ref{currentSubsection}</title>
+    
+        <block title="Principes">
+        <ul>
+            <li>Utiliser les éléments de formulaires et les sélecteurs CSS pour jouer sur l'affichage
+            du contenu de la page.</li>    
+            <li>Eviter le plus possible l'utilisation de Javascript en se basant sur les possibilités 
+            "natives" du navigateur.</li>
+        </ul>
+        </block>
+        
+        <block title="A priori, rien de neuf...">
+            <div class="playground nojs h30" data-href="./content/examples/formhacks1.html" data-opened="css"></div>
+        </block>      
+        
+    </slide>
+    
+    <subsubsection><code>checkbox</code> et <code>radio</code></subsubsection>
+    
+    <slide>
+        <title>@ref{currentSubsubsection}</title>
+    
+        <block title="Idée lumineuse">
+            <p>Remplacer <code>:hover</code> par <code>:checked</code> (case/bouton radio coché) et faire dépendre
+                l'affichage de l'état de l'<code>input</code> (coché ou non).</p> 
+        </block>
+        
+        <block title="Persistence de l'affichage du sous-menu">
+            <div class="playground nojs h30" data-href="./content/examples/formhacks2.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>@ref{currentSubsubsection}</title>
+    
+        <block title="Peut-on faire encore mieux ? Oui !">
+            <ul>
+                <li>On ajoute un label pour permettre de cliquer que le texte du menu, plutôt que sur la case</li>
+                <li>Et puisque la case n'est plus utile (visuellement), on la fait disparaître...</li>
+            </ul>
+        </block>
+        
+        <block title="Persistence de l'affichage du sous-menu">
+            <div class="playground nojs h30" data-href="./content/examples/formhacks3.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    
+    <slide>
+        <title>@ref{currentSubsubsection}</title>
+    
+        <block title="Et avec des boutons radio, ça marche aussi !">
+            <div class="playground nojs" data-href="./content/examples/formhacks4.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    
+    <subsubsection><code>::before</code> et <code>::after</code></subsubsection>
+    
+    <slide>
+        <title>Les pseudo-élements @ref{currentSubsubsection}</title>
+    
+        <block title="C'est quoi ces trucs-là ?">
+            <img src="./content/images/before_after.png" style="height: 50%; width: auto; top: 15%; float: right; margin-left: 3vh;">
+        
+            
+            <p><code>::before</code> et <code>::after</code> correspondent à des pseudo-éléments (des éléments 
+                à l'intérieur d'autres éléments), qui ne sont visibles qui si on leur assigne du contenu. </p> 
+            
+            <p style="margin-top: 3vh;">Le contenu (attribut <code>content</code>) peut être : </p>
+            <ul>
+                <li>rien du tout, un contenu vide : <code>content: '';</code> </li>
+                <li>du texte brut (par exemple: <code>'Hello'</code>)<br>Attention : pas de code HTML </li>
+                <li>une image (par exemple: <code>url('path/to/image.png')</code>)<br>Attention, il ne sera pas possible de la redimensionner. </li>
+            </ul>du texte brut, une image non-redimensionnable, 
+            mais pas de code HTML) et pour lequel on peut aussi préciser un style particulier (taille, couleur, etc.)</p>
+        </block>
+                
+    </slide>
+    
+    <slide>
+        <title>Les pseudo-élements @ref{currentSubsubsection}</title>
+
+        
+        <block title="Une checkbox vachement stylée">
+            <div class="playground nojs h40" data-href="./content/examples/pseudoelements1.html" data-opened="css"></div>
+        </block>
+        
+        
+        <p>
+            Quelques idées sur l'utilisation des pseudo-éléments : <url>https://css-tricks.com/pseudo-element-roundup/</url>
+        </p>
+    
+    </slide>
+    
+    
+    <section>Animations CSS</section>
+    
+    <slide outline class="section currentSection" option="no-navigation">
+        <title>Plan du chapitre</title>
+    </slide>
+
+    <subsection>Transitions animées</subsection>
+    
+    <slide>
+        <title>@ref{currentSubsection}</title>
+        
+        <block title="Qu'est-ce qu'une transition ?">
+        <p>Une transition désigne le passage d'une valeur d'une propriété à une autre valeur.</p>  
+        </block>
+        
+        <block title="Exemple de transition immédiate">
+            <div class="playground nojs h40" data-href="./content/examples/hover1.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+        
+        
+    <slide>
+        <title>@ref{currentSubsection}</title>
+        
+        <block title="Animer une transition ?">
+            
+            <p>Il s'agit de réaliser un passage progressif d'une valeur à une autre pour une propriété.</p>
+        </block>
+        
+        <block title="Super ! Et ça marche comment ?" onslide="2"> 
+            <p>Il faut préciser, dans le style de l'élément : </p>
+            <ul>
+                <li>la/les propriété(s) qui peu(ven)t être animée(s)</li>
+                <li>la durée de l'animation</li>
+                <li>la fonction de temporisation (timing function) - optionel</li>
+                <li>le délai avant que l'animation ne déclenche - optionel</li>
+            </ul>
+        </block>
+        
+        <speech>
+            Usuellement, les propriétés des éléments désignés par les sélecteurs leur sont affectées, |
+            ou changées (par exemple via <code>:hover</code>), sans délai. | 
+            Le passage à la nouvelle valeur est instantané. |
+            Animer la transition consiste à changer la valeur d'une propriété de manière progressive. | 
+            C'est le navigateur, qui, à partir d'un minimum d'informations, va calculer et réaliser 
+            cette transition. </p>
+        
+        </speech>
+    </slide>
+
+    <slide>
+        <title>Un premier exemple d'animation de propriété</title>
+        
+        <block title="Exemple d'animation de propriétés">
+            <div class="playground nojs" data-href="./content/examples/hover2.html" data-opened="css"></div>
+        </block>
+                    
+    </slide>
+    
+   
+    <slide>
+        <title>@ref{currentSubsection}</title>
+        <block title="La syntaxe">
+            <p>On définit une transition avec la combinaison des propriétés suivantes :</p>
+            <ul>
+                <li><code>transition-property</code> : le nom de la/des propriété(s) à animer (<code>all</code> pour toutes)</li>
+                <li><code>transition-duration</code> : la durée de la transition, en secondes</li>
+                <li><code>transition-function</code> : <code>linear</code>, <code>ease-in</code>, <code>ease-out</code>, <code>ease-in-out</code>, <code>steps</code>, <code>bezier-curve</code></li>
+                <li><code>transition-delay</code> : le délai avant de le déclenchement de l'animation</li>
+                <li></li>
+            </ul>
+        </block>
+     
+    </slide>
+    
+     
+    <slide>
+        <title>@ref{currentSubsection}</title>
+        <block title="Les propriétés">
+            <p>Toutes les propriétés ne peuvent pas forcément être animées :</p>
+            <ul>
+                <li>couleurs : <code>color</code>, <code>background-color</code>, <code>border-color</code>, etc.</li>
+                <li>tailles : <code>width</code>, <code>height</code>, <code>margin-XXX</code>, <code>padding-XXX</code>, <code>font-size</code>, 
+                    etc.</li>
+                <li>positionnements: <code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code>, <code>background-position</code>, 
+                etc.</li>
+                <li>diverses propriétés de rendu : <code>opacity</code>, <code>box-shadow</code>, <code>clip</code>, <code>filter</code>, etc.</li>
+            </ul>
+        </block>
+        
+        <p style="margin: 4vh;">La liste complète des propriétés animables est disponible à l'adresse :<br>
+            <url>https://www.w3schools.com/cssref/css_animatable.asp</url></p>
+        
+    </slide>
+    
+    
+    <slide>
+        <title>Les fonctions de temporisation</title>
+        
+        <block title="Les fonctions les plus courantes">
+            <div class="playground nojs" data-href="./content/examples/hover3.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    
+    <slide>
+        <title>Un second exemple d'animation de propriétés</title>
+        <block title="Des boutons radio vachement stylés">
+            <div class="playground nojs h40" data-href="./content/examples/pseudoelements2.html" data-opened="css"></div>
+        </block>
+
+    </slide>
+    
+    <subsection>Animer avec <code>keyframes</code></subsection>
+    
+    <slide>
+        <title>@ref{currentSubsection}</title>
+        
+        <div>
+        <p>Il est également possible de faire de "vraies animations" !</p>
+        <ul>
+                <li onslide="2-4">qui ne nécessitent pas forcément un déclencheur (survol, form hack, etc.)</li>
+                <li onslide="3,4">qui se définissent indépendamment des éléments</li>
+                <li onslide="4">qui s'appuient sur le mécanisme de transition vu précédemment</li>
+        </ul>
+        </div>
+        
+        <div class="playground nocode h40" style="width: 50vw; margin: 0 auto;" data-href="./content/examples/animations1.html"></div>
+ 
+    </slide>
+
+    <slide>
+        <title>@ref{currentSubsection}</title>
+       
+        
+        <block title="Syntaxe">
+            <p>Une animation se définit par l'intermédiaire d'images-clé (<code>keyframes</code>) et
+            se rattache ensuite à l'élément concerné avec ses paramètres. </p>
+            
+            <row>
+            <code style="display: block;"><br>@keyframes <i>nom_de_l_animation</i> {<br>
+            &nbsp; &nbsp; 0% { /* règles de style */ } <br>
+            &nbsp; &nbsp; 25% { ... } <br>
+            &nbsp; &nbsp; 50% { ... } <br>
+            &nbsp; &nbsp; 75% { ... } <br>
+            &nbsp; &nbsp; 100% { ... } <br>
+            }<br>
+            <br></code>
+            
+            <code style="display: block;">div { <br>
+                &nbsp; &nbsp; ...<br>
+                &nbsp; &nbsp; animation-name: <i>nom_de_l_animation</i>;<br>
+                &nbsp; &nbsp; animation-duration: <i>durée</i>; <br>
+                &nbsp; &nbsp; animation-direction: <i>itération</i>; <br>
+                &nbsp; &nbsp; animation-...   <br>
+            }
+            </code>
+            </row>
+            
+        </block>
+        
+    </slide>
+
+    
+    <slide>
+        <title>@ref{currentSubsection}</title>
+
+        <block title="Les propriétés de l'animation">
+            <ul>
+                <li><code>animation-name</code> : le nom de l'animation</li>
+                <li><code>animation-duration</code> : la durée de l'animation (ex. <code>2s</code>)</li>
+                <li><code>animation-delay</code> : le délai avant démarrage de l'animation</li>
+                <li><code>animation-transition-function</code> : fonction de temporisation (cf. transitions)</li>
+                <li><code>animation-direction</code> : sens de l'animation (<code>normal</code>, <code>reverse</code>, <code>alternate</code>, etc.)</li>
+                <li><code>animation-iteration-count</code> : nombre d'itérations (entier ou <code>infinite</code>)</li>
+                <li><code>animation-fill-mode</code> : valeurs des propriétés conservées lorsque l'animation s'arrête (<code>none</code>, <code>forwards</code>, <code>backwards</code>, <code>both</code>)</li>
+                <li><code>animation-play-state</code> : état de l'animation (<code>running</code>, <code>paused</code>)</li>
+            </ul>
+        </block>
+    
+        <p>Pour plus de détails sur les animations en CSS : <br> <url>https://www.w3schools.com/cssref/css3_pr_animation.asp</url></p>
+    </slide>
+    
+    <slide>
+        <title>Un exemple d'animation</title>
+    
+        <block title="Une petite animation pour patienter">
+            <div class="playground nojs" data-href="./content/examples/animations2.html" data-opened="css"></div>
+        </block>
+    </slide>
+    
+    
+    <section>Responsive design</section>
+    
+    <slide outline class="section currentSection" option="no-navigation">
+        <title>Plan du chapitre</title>
+    </slide>
+
+    <slide>
+        <title>Le responsive design, c'est quoi ?</title>
+        
+        <block title="Définition">
+        Possibilité d'afficher une mise en page, mise en forme, voire un contenu différent en fonction du
+            média (écran, imprimante, etc.) ou de ses caractéristiques (hauteur, largeur d'affichage, etc.)
+        </block>
+        
+        
+        <block title="Historiquement, plusieurs solutions...">
+        <ul>
+            <li>faire une version dédiée au mobile du site (exemple : <url>mobile.lemonde.fr</url>)</li>
+            <li>faire une application native </li>
+            <li>réaliser un site <i>responsive</i>, capable de s'adapter à tout type d'appareil de façon transparente pour l'utilisateur </li>
+        </ul>
+        </block>
+    </slide>
+    
+    
+    <slide>
+        <title>Différents types de design</title>
+            
+        <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; justify-items: center; align-items: stretch;"> 
+            <block title="Design static">
+                <p>Dimensions figées (unités fixes par exemple <code>320px</code>). Peu adapté à la variété de résolutions/appareils existants.</p>
+            </block>
+                
+            <block title="Design fluide (ou liquide)">
+                <p>Dimensions exprimées en unités variables <code>em</code>, <code>%</code>, <code>vw</code>/<code>vh</code>, possiblement mixées avec des unités fixes (fonction <code>calc</code>). S'adapte automatiquement à la taille de la fenêtre.</p> 
+            </block>
+            <block title="Design adaptatif">
+                <p>Dimensions figées, mais diffèrent en fonction de la taille de l'écran (détectée par <i>media queries</i>). Prend en compte les points de ruptures usuels (<code>320px</code>, <code>480px</code>, <code>768px</code>, etc.). </p>
+            </block>
+            
+            <block title="Design responsive">
+                <p>Amélioration du design fluide, couplé avec les media queries utilisées dans le design adaptatif.</p> 
+            </block>
+        </div>        
+    </slide>
+    
+    <subsection>Le positionnement</subsection>
+    
+    <slide>
+        <title>Rappels sur les positionnements classiques</title>
+    
+        <row>
+        <block title="Bien positionner son contenu">
+            <p>Le positionnement des blocs peut être un aspect important d'un design fluide/responsive. Différentes méthodes de positionnement existent : </p>
+            
+            <ul>
+                <li><code>static</code> : par défaut, dans le flux d'affichage standard </li>
+                <li><code>relative</code> : position relative au flux d'affichage standard (décalages possibles)</li>
+                <li><code>absolute</code> : position par rapport au dernier bloc en <code>relative</code> ou <code>absolute</code></li>
+                <li><code>fixed</code> : positionnement fixe dans la fenêtre. </li>
+            </ul>
+        </block>
+        
+        <block title="Les positions classiques">
+            <div class="playground nocode h50" data-href="./content/examples/positions1.html" data-opened="css"></div>
+        </block>
+        </row>
+        
+    </slide>
+
+    <slide>
+        <title>Positionnements à la mode</title>
+    
+        <block title="Mieux positionner son contenu">
+            <p>Depuis quelques années sont apparus de nouveaux types de positionnement de blocs qui sont très utilisés actuellement : </p>
+            <ul>
+                <li onslide="2-4"><code>flex</code> : pour déterminer une mise en page flexible en ligne ou en colonnes</li>
+                <li onslide="3-4"><code>grid</code> : pour déterminer une mise en page sour forme d'une grille</li>
+          </ul>
+        </block>
+            
+        <block title="Principes" onslide="4">
+            <p>L'idée de ces deux mécanismes est de calculer automatiquement certains placements et alignements qu'il serait 
+            complexe à réaliser <i>à l'ancienne</i> en apportant en plus une grande souplesse d'utilisation (fonctionnement 
+            similaire quelque soit le nombre de blocs du contenu).</p>
+            
+            <p>Il s'agit de <i>layouts</i> (dispositions) qui s'appliquent non pas aux éléments en eux-mêmes, mais à leur 
+            bloc conteneur, pour indiquer comme celui-ci doit organiser son contenu. </p>
+        </block>
+
+    </slide>    
+           
+    <subsubsection><code>flexbox</code></subsubsection>
+    
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+        
+        <block title="Définition">
+            <p>La mise en page <code>flexbox</code> a pour objectif de fournir un moyen efficace de positionner, 
+            aligner et répartir les espaces entre les éléments présents dans un conteneur, et ce même lorsque leur
+            taille n'est pas connue ou variable. </p>
+        </block>
+        
+        <block title="Propriétés">
+            <p>On trouve deux types de propriétés : </p>
+            <ul>
+                <li>du bloc conteneur : <code>display</code> (affichage), <code>flex-direction</code> (sens d'apparition des éléments), <code>flex-wrap</code> (politique de retour à la ligne), <code>justify-content</code> (espacements entre les éléments), <code>align-item</code> (alignement vertical des éléments sur une ligne), <code>align-content</code> (espacement vertical entre les lignes).</li>
+                <li>des contenus : <code>order</code> (ordre d'apparition), <code>flex-grow</code> (permettre à un élément d'être plus large si nécessaire), <code>flex-shrink</code> (permettre à un élément de rétrécir si nécessaire), <code>flex-basis</code> (définir la largeur initial d'un élément avant espacement), <code>align-self</code> (modifier l'alignement vertical de l'élément) </li>
+            </ul>
+        </block>
+    </slide>
+        
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>    
+        <block title="Propriétés d'un bloc avec <code>display: flex;</code>">
+            <ul style="padding-right: 50vh; min-height: 45vh; position: relative;">
+                <li><code>flex-direction</code>: <code>row</code> (en ligne de gauche à droite), <code>row-reverse</code> (en ligne mais de         gauche à droite), <code>column</code> (colonne de haut en bas), <code>column-reverse</code> (colonne de bas en haut)
+                    <img onslide="2" src="./content/images/flex-direction2.svg" style="position: absolute; right: 5vh; width: 40vh; height: auto; top: 0;">
+                    </li>  
+                <li><code>flex-wrap</code>: <code>nowrap</code> (pas de retour à la ligne), <code>wrap</code> (retour à la ligne), <code>wrap-reverse</code> (retour à la ligne, depuis le bas)
+                <img onslide="3" src="./content/images/flex-wrap.svg" style="position: absolute; right: 5vh; width: 40vh; height: auto; top: 0;"></li>
+                <li><code>justify-content</code>: <code>center</code> (centré), <code>flex-start</code> (début du bloc flexible), <code>flex-end</code> (fin du bloc flexible), <code>space-around</code> (espace uniforme autour des éléments), <code>space-between</code> (espace uniforme entre les éléments), <code>space-evenly</code> (espace uniforme entre les éléments et avec les bords)
+                <img onslide="4" src="./content/images/flex-justify-content-2.svg" style="position: absolute; right: 8vh; width: 35vh; height: auto; top: -4vh;"></li>
+                <li><code>align-item</code>: <code>flex-start</code> (en haut du bloc), <code>flex-end</code> (en bas du bloc), <code>center</code> (centré verticalement), <code>stretch</code> (étiré verticalement), <code>baseline</code> (alignés sur les lignes d'écriture)
+                <img onslide="5" src="./content/images/flex-align-items.svg" style="position: absolute; right: 5vh; width: 40vh; height: auto; top: -4vh;"></li>
+                <li><code>align-content</code>: <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>stretch</code>.
+                <img onslide="6" src="./content/images/flex-align-content.svg" style="position: absolute; right: 5vh; width: 40vh; height: auto; top: -4vh;"></li>
+                </li>
+            </ul>   
+            <p>(images d'illustrations reprises de <url>https://css-tricks.com/snippets/css/a-guide-to-flexbox/</url>)</p>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+        
+        <block title="Démonstrateur des propriétés du conteneur">
+            <div class="playground nocode" data-href="./content/examples/positions2.html" data-opened="css"></div>            
+        </block>
+    </slide>
+    
+    <subsubsection><code>grid</code></subsubsection>
+
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+
+        <block title="Définition">
+            <p>La disposition en grille permet de placer des éléments dans un système en deux dimensions, sur des lignes 
+                et des colonnes. </p>
+        </block>
+        
+        <block title="Les propriétés">
+            <p>On distingue deux types de propriétés :</p>
+            <ul>
+                <li>les propriétés du conteneur : <code>display</code> (affichage), <code>grid-template-column/grid-template-row</code> 
+                (définition de la taille des lignes/des colonnes de la grille), <code>grid-template-area</code> (référence des zones des 
+                grilles), <code>grid-column-gap/grid-row-gap</code> (espacements entre colonnes/lignes), <code>justify-items</code> 
+                (alignements dans les lignes), <code>align-items</code> (alignements dans les colonnes), 
+                <code>justify-content</code> (répartition de la grille dans l'espace)... </li>
+               
+                <li>les propriétés des éléments : <code>grid-column-start</code>, <code>grid-column-end</code>, <code>grid-row-start</code>, 
+                <code>grid-row-end</code> (définition de l'étendue de l'élément sur la grille), <code>grid-area</code> (définition de l'étendue
+                    en passant par le nom du template), <code>align-self</code> (modifier l'alignement vertical initialà, <code>justify-self</code> (modifier l'alignement horizontal).</li>
+            </ul>
+        </block>
+            
+    </slide>
+
+
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+        
+        <block title="Les propriétés des conteneurs">
+            <ul>
+                <li><code>grid-template-columns</code>/<code>grid-template-rows</code> : <i>taille</i> (longueur, pourcentage, fraction <code>fr</code>), <i>nom</i> (que vous choisissez), <code>subgrid</code> (sous-grille -- dimensions héritées du parent) </li>
+                <li><code>grid-template-area</code> : chaîne de caractères contenant <i>des noms</i> et/ou <code>.</code> (cellule vide) ou <code>none</code> (aucune cellule définie)</li>
+                <li><code>grid-column-gap</code>/<code>grid-row-gap</code> : <i>taille</i>propriétés abrégées par <code>grid-gap: <i>column-gap</i> / <i>row-gap</i></code></li>
+                <li><code>justify-items</code> : alignement horizontal <code>start</code> (début de la grille), <code>end</code> (fin de la grille), <code>center</code> (centré), <code>stretch</code> (étiré) </li>
+                <li><code>align-items</code> : alignement vertical -- même valeurs que <code>justify-items</code></li>
+                <li><code>justify-content</code> : espacement autour de la grille lorsque celle-ci est plus petite que son conteneur <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code>, <code>space-around</code>, <code>space-between</code>, 
+                <code>space-evenly</code>.</li>
+            </ul>
+        </block>
+    </slide>
+
+
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+        
+        <block title="Démonstrateur propriétés du conteneur">
+            <div class="playground nocode h50" data-href="./content/examples/positions3.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+        
+        <block title="Les propriétés des enfants">
+            <ul>
+                <li><code>grid-column-start</code>, <code>grid-column-end</code>, <code>grid-row-start</code> et <code>grid-row-end</code> : <i>nombre</i> (ligne), <i>nom</i> (ex. <code>row1-end</code>, <code>three</code>, <code>last-line</code>), <code>span <i>nombre</i></code> (étendu sur le nombre spécifié de piste de grille), <code>span <i>nom</i></code> (étendu jusqu'à rencontrer la ligne désignée), <code>auto</code> (placement automatique) </li>
+                <li><code>grid-column</code> et <code>grid-row</code> : <code><i>start</i> / <i>end</i> </code></li>
+                <li><code>grid-area</code> : <code><i>nom</i></code> (de la zone créée avec <code>grid-template-area</code>) ou 
+                <code><i>row-start</i> / <i>column-start</i> / <i>row-end</i> / <i>column-end</i></code></li>
+                <li><code>justify-self</code> : alignement horizontal <code>start</code> (début), <code>end</code> (fin), 
+                    <code>center</code> (centré) ou <code>stretch</code> (étiré)</li>
+                <li><code>align-self</code> : alignement vertical -- même valeurs que <code>justify-self</code></li>
+            </ul>
+        </block>
+        
+    </slide>
+
+  <slide>
+        <title>Positionner avec @ref{currentSubsubsection}</title>
+        
+        <block title="Démonstrateur propriétés des enfants">
+            <div class="playground nojs h50" data-href="./content/examples/positions4.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+
+    <slide>
+        <title>Bilan sur flex et grid</title>
+
+        <block title="Plus de détails sur flexbox">
+            <ul>
+                <li><url>https://css-tricks.com/snippets/css/a-guide-to-flexbox/</url> </li>
+                <li><url>https://www.w3schools.com/css/css3_flexbox.asp</url></li>
+            </ul>
+        </block>
+                
+        <block title="Plus de détails sur les grilles">
+            <ul>
+                <li><url>https://css-tricks.com/snippets/css/complete-guide-grid/</url></li>
+                <li><url>https://la-cascade.io/css-grid-layout-guide-complet/</url>  (traduction du précédent)</li>
+                <li><url>https://gridbyexample.com/examples/</url></li>
+            </ul>
+        </block>
+        
+    </slide>
+
+
+
+    <subsection>Media Queries</subsection>
+
+    <slide>
+        <title>Les Media Queries</title>
+        
+        <block title="Définition">
+            <p>Intégrées à CSS3, elles permettent d'interroger le navigateur pour connaître différentes informations : 
+                média (écran, imprimante, etc.), largeur/hauteur de la zone d'affichage, orientation, etc. </p>
+            <p>En fonction du résultat de ces requêtes, il est possible de définir des règles de styles conditionnées.</p>
+        </block>
+        
+        <block title="Un exemple">
+            <div class="playground nojs h30" data-href="./content/examples/mediaqueries1.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+    
+    <slide>
+        <title>Les Media Queries</title>
+        
+        <block title="Un peu d'histoire">
+            <p>Déjà en CSS2, il était possible de définir des feuilles de style spécifiques en fonction du média.</p>
+            <code style="font-size: 90%;">&lt;link rel="stylesheet" media="screen" href="screen.css" type="text/css" /><br>
+                &lt;link rel="stylesheet" media="print" href="print.css" type="text/css" /></code>
+            
+        </block>
+        
+        <block title="Valeurs de l'attribut <code>media</code>">
+        <row>
+        <ul>
+            <li><code>screen</code> : écrans</li>
+            <li><code>handheld</code> : [vieux] appareils mobiles</li>
+            <li><code>print</code> : imprimante</li>
+            <li><code>aural</code>/<code>speech</code> : synthèse vocale</li>
+            <li><code>braille</code> : écrans</li>
+        </ul>    
+        <ul>
+            <li><code>embossed</code> : imprimantes braille</li>
+            <li><code>projection</code> : projecteurs (présentation avec slides)</li>
+            <li><code>tty</code> : terminal/police à pas fixe</li>
+            <li><code>tv</code> : téléviseur</li>
+            <li><code>all</code> : tous</li>            
+        </ul>
+        </row>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>Syntaxe des media queries</title>
+        
+        <block title="media query == expression booléenne">
+            <p>Une media query est une expression qui s'évalue par vrai ou faux. Elle s'exprime à partir du média
+            et de ses capacités intrinsèques, qui peuvent se combiner avec <code>and</code> (et), <code>only</code> (uniquement)
+            et <code>not</code> (négation). <br>
+            La disjonction se fait en énumérant plusieurs media queries à la suite.</p>
+        </block>
+        
+        <block title="Où s'utilisent les media queries ?">
+            <p>Deux possibilités non exclusives : </p>    
+            <ul>
+                <li>Au moment du chargement de la feuille de style : <br>
+                    <code style="font-size: 90%;">&lt;link rel="stylesheet" media="screen and (max-width: 640px)" href="small.css" ... ></code>
+                </li>
+                <li>Dans la feuille de style, pour créer des règles conditionnelles :<br>
+                    <code style="font-size: 90%;">@media screen and (min-width: 640px) { <br>
+                    &nbsp;&nbsp;aside { width: 200px; float: left; }<br>
+                    }</code>
+                </li>
+            </ul>
+        </block>
+        
+    </slide>
+
+    
+
+    <slide>
+        <title>Les Media Queries</title>
+        
+        <block title="Les principaux opérateurs">
+            <ul>
+                <!--<li><code>color</code>/<code>monochrome</code> : support de la couleur/niveaux de gris ou monochrome</li>
+                <li><code>grid</code> : périphérique bitmap ou grille (ex. LCD)</li>
+                <li><code>scan</code> : type de balayage des téléviseurs (<code>progressive</code> ou <code>interlace</code>)</li>
+                <li><code>color-index</code> : périphérique utilisant une table de couleurs indexée (pas de valeur)</li>-->
+                <li><code>device-aspect-ratio</code> : ratio du périphérique de sortie (par exemple : <code>16/9</code>, <code>16/10</code>, <code>4/3</code>, etc.)</li>
+                <li><code>aspect-ratio</code> : ratio de la zone d'affichage</li>
+                <li><code>device-height</code>/<code>device-width</code> : hauteur/largeur de l'appareil</li>
+                <li><code>height</code>/<code>width</code> : hauteur/largeur de la zone d'affichage</li>
+                <li><code>orientation</code>: orientation du périphérique (<code>portrait</code> ou <code>landscape</code>)</li>
+                <li><code>resolution</code> : résolution du périphérique (en <code>dpi</code>, <code>dppx</code> ou <code>dpcm</code>)</li>
+            </ul>
+        </block>
+        
+        <p style="margin-top: 3vh;">Beaucoup d'entre eux peuvent être préfixés par <code>min-</code> ou <code>max-</code> pour exprimer des inégalités. </p>
+        
+    </slide>
+
+
+    <slide>
+        <title>Exemple de media queries</title>
+
+        <block title="Un exemple">
+            <p>Redimensionnez la fenêtre de droite pour voir les règles appliquées.</p>
+            <div class="playground nojs h50" data-href="./content/examples/mediaqueries2.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    <subsection>La notion viewport pour le mobile</subsection>
+
+    <slide>
+        <title>Le mobile et la notion de viewport</title>
+
+            <p>Le viewport est une notion important dans les affiches sur mobile. Il s'agit de la surface de la fenêtre du navigateur. </p>
+            
+            <p>Contrairement aux applications <i>desktop</i>, le mobile ne propose pas de fenêtre réelle du à la navigation tactile. </p>
+        
+        
+        <block title="Surface réelle vs. surface en pixels CSS">
+            <p>On distingue la surface réelle de la surface en pixels CSS (<code>device-width</code> x <code>device-height</code>) :</p>
+            <table>
+                <tr>
+                    <td>Appareil</td><td>Surface réelle</td><td>Surface en pixels CSS</td>
+                </tr>
+                <tr>
+                    <td>iPhone 4</td><td>640 x 960</td><td>320 x 480</td>
+                </tr>
+                <tr>
+                    <td>iPhone 5</td><td>640 x 1136</td><td>320 x 568</td>
+                </tr>
+                <tr>
+                    <td>iPhone 6+</td><td>1080 x 1920</td><td>414 x 736</td>
+                </tr>
+                <tr>
+                    <td>iPad 2</td><td>768 x 1024</td><td>768 x 1024</td>
+                </tr>
+                <tr>
+                    <td>iPad Air</td><td>1536 x 2048</td><td>768 x 1024</td>
+                </tr>
+            </table>
+            <p>Voir <url>https://mydevice.io/devices/</url> ou <url>http://screensiz.es/</url> pour plus de détails. 
+            </p>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>Le mobile et la notion de viewport</title>
+        
+        <block title="viewport !== surface réelle && viewport !== surface en pixels css">
+            <p>Généralement supérieure à la surface physique (pour pouvoir afficher n'importe quelle page web comme sur 
+                un ordinateur de bureau), le viewport n'est pas fixé par le terminal mais... par le navigateur !</p>
+        </block>
+        
+        <block title="Quelques viewports...">
+            <table style="width: 30vw; float: left; margin-right: 2vh;">
+                <tr>
+                    <td>Navigateur</td><td>largeur par défaut</td>
+                </tr>
+                <tr>
+                    <td>Android 1, 2, 3</td><td>800 px</td>
+                </tr>
+                <tr>
+                    <td>Android 4</td><td>980 px</td>
+                </tr>
+                <tr>
+                    <td>Safari mobile</td><td>980 px</td>
+                </tr>
+                <tr>
+                    <td>IE mobile</td><td>1024 px</td>
+                </tr>
+            </table>
+            <p style="margin-top: 2vh;">Pour effectuer le rendu d'une page, le navigateur va appliquer un <i>niveau de zoom</i> qui représente 
+                la division <code>device-width</code>/<code>viewport</code>. La surface réelle n'entre pas en compte. 
+                Exemple pour un iPhone 5 : le niveau de zoom initial sera de <code>0.326</code> (320px/980px).
+            </p>
+            
+        </block>
+
+</slide>
+
+    <slide>
+        
+        <title>Modifier les paramètres de viewport</title>
+            
+        <block title="Le tag meta viewport">
+            <p>Pour uniformiser le rendu des pages, il est possible de modifier différents paramètres du viewport, via le 
+                tag<br><code style="font-size: 90%;">&lt;meta name="viewport" content="<i>cle1=valeur1, cle2=valeur2, ...</i>"&gt;</code>
+            </p>    
+        </block>    
+        
+        <block title="Propriétés du viewport">
+            <ul>
+                <li><code>width</code>: largeur de la fenêtre viewport (en  pixels ou <code>device-width</code>)</li>
+                <li><code>height</code>: hauteur de la fenêtre viewport (en  pixels ou <code>device-height</code>)</li>
+                <li><code>initial-scale</code>: zoom initial (réel, par ex. <code>1.0</code>)</li>
+                <li><code>minimum-scale</code>/<code>maximum-scale</code>: zoom minimal/maximal</code></li>
+                <li><code>user-scalable</code>: possibilité de zoomer (<code>yes</code> ou <code>no</code>)</li>
+                <li><code>shrink-to-fit</code>: possibilité de réduire la page pour pouvoir l'afficher (<code>yes</code> ou <code>no</code>)</li>
+            </ul>
+        </block>
+    </slide>
+
+
+    <section>Quelques outils et frameworks</section>
+
+    <slide outline class="section currentSection" option="no-navigation">
+        <title>Plan du chapitre</title>
+    </slide>
+
+
+    <subsection>Les outils développeurs des navigateurs</subsection>
+
+    <slide>
+        <title>Les outils développeurs</title>
+
+        <p>Beaucoup de navigateurs intègrent désormais des outils développeurs, qu'il est possible d'utiliser pour tester 
+        ses pages directement :</p>
+        <block title="Outils développeurs">
+            <row>
+                <div>Firefox<br><img src="./content/images/dev-firefox.png"></div>
+                <div>Chrome<br><img src="./content/images/dev-chrome.png"></div>
+                <div>Safari<br><img src="./content/images/dev-safari.png"></div>
+            </row>
+        </block>
+    </slide>
+
+    <slide>
+        <title>Les outils développeurs</title> 
+        
+        <block title="Les possibilités offertes par les outils développeurs">
+            <img src="./content/images/dev-mobile.png" style="width: 80%; margin: 0;">
+            <p>Ces outils permettent de :</p>
+            <ul>
+                <li>visualiser/modifier l'arbre DOM (inspecter les éléments)</li>
+                <li>visualiser/modifier les styles appliqués aux différents éléments</li>
+                <li>observer le rendu des pages en fonction de la résolution</li>
+                <li>simuler le comportement d'un mobile (événements touch, etc.)</li>
+            </ul>
+        </block>
+            
+    </slide>
+
+
+    <subsection>Bootstrap</subsection>
+
+    <slide>
+        <title>Bootstrap</title>
+        
+        <block title="Qu'est-ce que c'est ?">
+            <ul>
+                <li><i>Bootstrap</i> est une bibliothèque de styles, et de scripts, créée en 2011 par Mark Otto et 
+                    Jacob Thornton (proches de Twitter), pour fournir des mises en page/en forme clé-en-main pour les 
+                    concepteurs de sites web. 
+                </li>
+                <li><i>Bootstrap</i> possède la particularité de proposer un design <i>responsive</i> qui facilite, 
+                    du coup la conception de sites "vite-faits, bien-faits" en garantissant un rendu optimal sur les
+                    différents appareils. </li>
+                <li>Il ne demande pas de connaître CSS de façon poussée, ni de comprendre le mécanisme des sélecteurs,
+                    les styles se déclarent comme des classes CSS qui s'appliquent sur les éléments du DOM. </li>
+                <li>Pour maîtriser Bootstrap, il convient donc de connaître sur le bout des doigts les classes existantes
+                    et leurs possibilités. </li>
+                </ul>
+        </block>
+        
+        <p style="margin-top: 3vh;">Bootstrap est devenu incontournable. Actuellement en version 3, la version 4 est en beta. </p>
+        
+    </slide>
+
+    <slide>
+        <title>Bootstrap, reconnaissable entre tous...</title>
+
+        <block title="Un exemple facile...">
+            <iframe src="http://dps.univ-fcomte.fr" style="width: 100%; height: 60vh; margin: 0 auto; border: solid 2px #000; box-shadow: 5px 5px 5px darkgrey;"></iframe>
+        </block>
+    </slide>
+
+    <slide>
+        <title>Bootstrap, responsive design</title>
+
+        <img src="content/images/responsiveDPS.png" style="width: 120vh;">
+    </slide>
+
+
+    <slide>
+        <title>Bootstrap</title>
+        
+        <block title="Possibilités offertes par Bootstrap">
+            <ul>
+                <li>un style standardisé pour les marqueurs les plus classiques : titres <code>h1</code> à <code>h6</code>, <code>blockquote</code>, <code>code</code>, <code>pre</code>, etc.</li>
+                <li>des classes typographiques qui s'appliquent aux textes : <code>.lead</code>, <code>.small</code>, <code>.text-center</code>, etc. ou à d'autres éléments comme <code>.list-inline</code>, <code>.dl-horizontal</code>, <code>.pre-scrollable</code>, etc.</li>
+                <li>des classes spécifiques pour le rendu d'éléments classiques : de tables (<code>.table</code>, <code>.table-striped</code>, <code>.table-bordered</code>) d'images (<code>.img-rounded</code>, <code>.img-circle</code>, <code>.img-thumbnail</code>), de boutons (<code>.btn</code>, <code>.btn-default</code>, <code>.btn-primary</code>, etc. applicables sur <code>input</code>, <code>a</code> et <code>button</code>), des inputs (checkbox, radio, select, etc.), et bien d'autres.
+                <li>des widgets : menu de navigation, menus déroulants, "fenêtre" modale, caroussel (images défilantes), jumbotron (bloc de mise en avant), glyphicons (icones), barres de progression, systèmes de pagination, etc.</li>
+                <li>un système de mise en page basé sur une grille (un <code>grid</code> avant l'heure) de 12 cases de larges. <br>
+                Voir à ce sujet : <url>https://open.nytimes.com/bootstrap-to-css-grid-87b3f5f830e4</url></li>
+            </ul>
+        </block>
+        
+        <p>Quelques exemples de templates utilisant Bootstrap : <br>
+            <url>https://v4-alpha.getbootstrap.com/examples/</url>, <url>https://startbootstrap.com</url></p>
+        
+    </slide>
+
+
+    <slide>
+        <title>De quoi se compose Bootstrap ?</title>
+        
+        <block title="Chargement de la bibliothèque">
+        <p>Bootstrap utilise plusieurs fichiers qui permettent de profiter pleinement des fonctionnalités offertes.</p>
+        <ul>
+            <li style="text-align:left;">une feuille de style CSS pour les mise en page/forme : <br>
+            <code style="font-size: 90%;">&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></code></li>
+            <li>des scripts Javascript pour ses plug-ins (Carousel, Scrollspy, Popover, Affix, Filters, etc.) : <br>
+                <code style="font-size: 90%;">&lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">&lt;/script></code></li>
+            <li>qui s'appuient sur JQuery (une bibliothèque Javascript permettant de manipuler facilement le DOM) : <br>
+            <code style="font-size: 90%;">&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">&lt;/script></code>
+                </li>
+            
+        </ul>
+        </block>
+        
+        <p>Pour en savoir plus sur Bootstrap (3 et 4) et ses nombreuses possibilités :<br> 
+            <url>https://www.w3schools.com/bootstrap/default.asp</url>
+        </p>
+        
+    </slide>
+    
+    <subsection>Générer des feuilles de style</subsection>
+
+    <slide>
+        <title>Autres outils pour CSS</title>
+
+        <block title="Générer du CSS">
+            <p>Pour pallier certains manque de souplesse de CSS (pas de variables, pas de possibilité d'importations de styles, 
+                utilisation de préfixes vendeurs, etc.), 
+                différents outils/langages ont été mis au point. Ces derniers sont compilés pour produire une feuille de style CSS 
+                classique. </p>
+            
+            <p>Parmi ceux-ci, on retiendra : </p>
+
+            <ul>
+                <li>Sass (Syntactically Awesome StyleSheets) qui s'appuie sur le langage SCSS, un extension de CSS ajoutant des règles imbriquées,
+                    des variables, des mixins (règles paramétrées réutilisables), de l'héritage de sélecteurs, etc. <br>
+                    <url>http://sass-lang.com</url></li>
+                <li>Less propose les mêmes fonctionnalités que Sass avec une syntaxe et une mise en oeuvre légèrement différentes. <br>
+                <url>http://lesscss.org/</url></li>
+            </ul>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>Les variables en CSS</title>
+
+        <block title="Déclarer des variables">
+            <p>Il est désormais possible depuis CSS3 de déclarer des propriétés personnalisées (custom properties) dont le nom, choisi par vos soins, devra être préfixé par <code>--</code>. </p>
+            <p>Ces propriétés sont ensuite référencées par la fonction <code>var(--maPropriete)</code>.</p>
+        </block>
+        
+        <block title="Exemple illustratif de variables CSS">
+            <div class="playground nojs h30" data-href="./content/examples/css-var1.html" data-opened="css"></div>
+        </block>
+        
+    </slide>
+
+    <slide>
+        <title>Les variables en CSS</title>
+
+        <block title="Portée des variables">
+            <p>Les propriétés personnalisées sont héritées dans le DOM. Par habitude, on définit les propriétés génériques
+            dans le marqueur <code>body</code>. </p>
+        </block>
+        
+        <block title="Exemple illustratif de variables CSS">
+            <div class="playground nojs h40" data-href="./content/examples/css-var2.html" data-opened="css"></div>
+        </block>
+
+        
+    </slide>
+
+
+    <slide>
+        <title>Pour conclure</title>
+
+        <p>Nous avons vu dans ce chapitre des techniques CSS avancées (form hacks, animations) qui ne nécessitent pas 
+        de Javascript, ainsi que des notions en vogue à l'heure actuelle (positionnement <code>flex</code>, 
+        <code>grid</code>) et responsive design. </p>
+        
+        <p>Comme souvent, il n'y a pas de recette miracle : documentez-vous, lisez du code, multipliez les sources de 
+            documentation. N'hésitez pas à suivre les bonnes adresses sur Twitter (utilisez les réseaux sociaux !). </p>
+    
+        <block title="Quelques liens utiles">
+            <ul>
+                <li>CSS Tricks : <url>https://css-tricks.com/</url> - <url>https://twitter.com/Real_CSS_Tricks</url></li>
+                <li>CSS Deck : <url>http://cssdeck.com/</url></li>
+                <li>Quelques blogs de développeurs web, notamment dev.to (<url>https://dev.to/t/css</url> - <url>https://twitter.com/devto</url>) ou alsacréations (<url>https://www.alsacreations.com/</url> - <url>https://twitter.com/alsacreations</url>)</li>
+                <li style="text-align: left;">Pour vous tester : <url>https://github.com/h5bp/Front-end-Developer-Interview-Questions/tree/master/Translations/French#questions-sur-css-</url></li>
+            </ul>    
+        </block>
+        
+        <p>Gardez à l'esprit que, malheureusement, tous les navigateurs n'implémentent pas toutes les propriétés CSS. <br>
+        Vérifiez la compatibilité avec <url>https://caniuse.com/</url></p>
+        
+    </slide>
+
+
+</slideshow>
+    
+    
+</body>
+
+</html>

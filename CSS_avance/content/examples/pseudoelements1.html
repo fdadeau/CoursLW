@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body {
+    font-family: sans-serif;
+    font-size: 6vh;
+}
+label {
+    display: block;
+    position: relative;
+    width: 50vh;
+    height: 10vh;
+    padding-right: 30vh;
+    margin: 3vh;
+}   
+label::before {
+    content: '';
+    width: 18vh;
+    height: 8vh;
+    right: 0;
+    background-color: red;
+    border-radius: 4vh;
+    position: absolute;
+}
+label::after {
+    content: '';
+    width: calc(8vh - 2px);
+    height: calc(8vh - 2px);
+    position: absolute;
+    right: calc(18vh - 8vh);
+    top: 1px;
+    border-radius: 4vh;
+    background-color: #FFFFFF;
+}
+input {
+    display: none;
+}
+input:checked + label::before {
+    background-color: #00FF00;
+}
+input:checked + label::after {
+    right: 1px;
+}
+    </style>
+<script src="./includeInIFrame.js"></script>
+</head>
+<body>
+
+<p>Je cherche quelqu'un : </p>    
+    
+<input type="checkbox" id="cb1">
+    <label for="cb1">Intelligent</label>
+    
+<input type="checkbox" id="cb2">
+    <label for="cb2">Sexy</label>
+
+<input type="checkbox" id="cb3">
+    <label for="cb3">Riche</label>    
+    
+    
+</body>
+</html>

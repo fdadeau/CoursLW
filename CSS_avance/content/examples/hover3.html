@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+div {
+    width: 100px;
+    height: 10vh;
+    margin-bottom: 10px;
+    color: white;
+    padding: 0 2vh;
+    font-size: 6vh;
+    font-family: sans-serif;
+    line-height: 10vh;
+    overflow: hidden;
+    background-color: blue;
+    transition-property: width;
+    transition-duration: 2s;
+}
+        
+div:hover {
+    width: calc(100% - 4vh);
+}
+        
+.linear { 
+    transition-timing-function: linear; 
+}
+.ease { 
+    transition-timing-function: ease; 
+}
+.ease-in { 
+    transition-timing-function: ease-in; 
+}
+.ease-out { 
+    transition-timing-function: ease-out; 
+}
+.ease-in-out { 
+    transition-timing-function: ease-in-out; 
+}
+.steps {
+    transition-timing-function: steps(4,start);
+}
+    </style>
+<script src="includeInIFrame.js"></script>
+</head>
+<body>
+<div class="linear">linear : vitesse constante</div>
+<div class="ease">ease : rapide au début puis ralenti</div>
+<div class="ease-in">ease-in : lent au début, accéléré à la fin</div>
+<div class="ease-out">ease-out : accéléré au début, lent à la fin</div>
+<div class="ease-in-out">ease-in-out : lent au début et à la fin</div>
+<div class="steps">steps : par petites étapes</div>
+</body>
+</html>

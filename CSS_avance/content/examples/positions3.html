@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body {
+    padding: 1vh 1vw;
+    margin: 0;
+    height: 98vh;
+    width: 98vw;
+    font-family: courier;
+    font-size: 4.5vh;
+    line-height: 1.8;
+}
+#container {
+    display: grid;
+    width: 100%;
+    min-height: 40vh;
+    margin: 2vh 0;
+    background: purple;
+    grid-column-gap: 2px;
+    grid-row-gap: 2px;
+}
+#container > div {
+    background-color: rgba(255,165,0,0.8);
+}
+
+#gtc1:checked ~ #container {
+    grid-template-columns: 20% 50% 30%;
+}
+#gtc2:checked ~ #container {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#gtc3:checked ~ #container {
+    grid-template-columns: 2fr 1fr 2fr;
+}
+
+#gtr1:checked ~ #container {
+    grid-template-rows: 40vh 20vh;
+}
+#gtr2:checked ~ #container {
+    grid-template-rows: 1fr 1fr;
+}
+#gtr3:checked ~ #container {
+    grid-template-rows: 1fr 3fr;
+}      
+        
+#ju_start:checked ~ #container {
+    justify-items: start;
+}
+#ju_end:checked ~ #container {
+    justify-items: end;
+}
+#ju_center:checked ~ #container {
+    justify-items: center;
+}
+#ju_stretch:checked ~ #container {
+    justify-items: space-evenly;
+}
+        
+#ai_start:checked ~ #container {
+    align-items: start;
+}       
+#ai_end:checked ~ #container {
+    align-items: end;
+}       
+#ai_center:checked ~ #container {
+    align-items: center;
+}       
+#ai_stretch:checked ~ #container {
+    align-items: stretch;
+}       
+        
+#ac_flex-start:checked ~ #container {
+    align-content: start;
+}       
+#ac_flex-end:checked ~ #container {
+    align-content: end;
+}       
+#ac_center:checked ~ #container {
+    align-content: center;
+}       
+#ac_space-around:checked ~ #container {
+    align-content: space-around;
+}       
+#ac_space-between:checked ~ #container {
+    align-content: space-between;
+}       
+#ac_space-evenly:checked ~ #container {
+    align-content: space-evenly;
+}       
+#ac_stretch:checked ~ #container {
+    align-content: stretch;
+}       
+
+#jc_start:checked ~ #container {
+    justify-content: start;
+}       
+#jc_end:checked ~ #container {
+    justify-content: end;
+}       
+#jc_center:checked ~ #container {
+    justify-content: center;
+}       
+#jc_space-around:checked ~ #container {
+    justify-content: space-around;
+}       
+#jc_space-between:checked ~ #container {
+    justify-content: space-between;
+}       
+#jc_space-evenly:checked ~ #container {
+    justify-content: space-evenly;
+}       
+#jc_stretch:checked ~ #container {
+    justify-content: stretch;
+}       
+        
+        
+label {
+    margin-right: 2vh;
+}
+    </style>
+</head>
+<body>
+
+grid-template-columns : 
+<input type="radio" name="gtc" id="gtc1" checked> <label for="gtc1">20% 50% 30%</label>
+<input type="radio" name="gtc" id="gtc2"> <label for="gtc2">1fr 1fr 1fr</label>
+<input type="radio" name="gtc" id="gtc3"> <label for="gtc3">2fr 1fr 2fr</label> <br>
+
+grid-template-rows : 
+<input type="radio" name="gtr" id="gtr1" checked> <label for="gtr1">40vh 20vh</label>
+<input type="radio" name="gtr" id="gtr2"> <label for="gtr2">1fr 1fr</label>
+<input type="radio" name="gtr" id="gtr3"> <label for="gtr3">1fr 3fr</label> <br>
+    
+grid-column-gap : <input type="number" value="2" min="0" step="1" onchange="container.style.gridColumnGap=this.value+'px'"> -- 
+grid-row-gap: <input type="number" value="2" min="0" step="1" onchange="container.style.gridRowGap=this.value+'px'"> <br>
+ 
+    justify-items:
+<input type="radio" name="justify" id="ju_start" checked><label for="ju_start">start</label>
+<input type="radio" name="justify" id="ju_end"><label for="ju_end">end</label>
+<input type="radio" name="justify" id="ju_center"><label for="ju_center">center</label>
+<input type="radio" name="justify" id="ju_stretch"><label for="ju_stretch">stretch</label>
+<br>
+
+align-item:
+<input type="radio" name="ai" id="ai_start" checked><label for="ai_start">start</label>
+<input type="radio" name="ai" id="ai_end"><label for="ai_end">end</label>
+<input type="radio" name="ai" id="ai_center"><label for="ai_center">center</label>
+<input type="radio" name="ai" id="ai_stretch"><label for="ai_stretch">stretch</label>
+<br>
+
+    <!--
+align-content:
+<input type="radio" name="ac" id="ac_flex-start" checked><label for="ac_flex-start">start</label>
+<input type="radio" name="ac" id="ac_flex-end"><label for="ac_flex-end">end</label>
+<input type="radio" name="ac" id="ac_center"><label for="ac_center">center</label>
+<input type="radio" name="ac" id="ac_space-around"><label for="ac_space-around">space-around</label>
+<input type="radio" name="ac" id="ac_space-between"><label for="ac_space-between">space-between</label>
+<input type="radio" name="ac" id="ac_space-evenly"><label for="ac_space-evenly">space-evenly</label>
+<input type="radio" name="ac" id="ac_stretch"><label for="ac_stretch">stretch</label>
+<br>
+
+justify-content:
+<input type="radio" name="jc" id="jc_start" checked><label for="jc_start">start</label>
+<input type="radio" name="jc" id="jc_end"><label for="jc_end">end</label>
+<input type="radio" name="jc" id="jc_center"><label for="jc_center">center</label>
+<input type="radio" name="jc" id="jc_space-around"><label for="jc_space-around">space-around</label>
+<input type="radio" name="jc" id="jc_space-between"><label for="jc_space-between">space-between</label>
+<input type="radio" name="jc" id="jc_space-evenly"><label for="jc_space-evenly">space-evenly</label>
+<input type="radio" name="jc" id="jc_stretch"><label for="jc_stretch">stretch</label>
+<br>
+-->
+<div id="container">
+    <div style="width: auto; padding: 2vh 0; text-align: center;">(1)</div>
+    <div style="width: auto; padding: 4vh 0 2vh 0; text-align: center;">(2)</div>
+    <div style="width: auto; padding: 2vh 0 3vh 0; text-align: center;">(3)</div>
+    <div style="width: auto; padding: 1vh 0; text-align: center;">(4)</div>
+    <div style="width: auto; padding: 2vh 0 4vh 0; text-align: center;">(5)</div>
+    <div style="width: auto; padding: 4vh 0; text-align: center;">(6)</div>
+</div>
+    
+</body>
+</html>

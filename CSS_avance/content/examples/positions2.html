@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body {
+    padding: 1vh 1vw;
+    margin: 0;
+    height: 98vh;
+    width: 98vw;
+    font-family: courier;
+    font-size: 4.5vh;
+    line-height: 1.8;
+}
+#container {
+    display: flex;
+    width: 100%;
+    min-height: 53vh;
+    margin: 2vh 0;
+    background: purple;
+}
+        
+#container > div {
+    font-size: 7vh;
+    margin: 2vh;
+    text-align: center;
+    font-family: arial;
+    background-color: orange;
+}
+#fd_rows:checked ~ #container {
+    flex-direction: row;
+}
+#fd_rows-reverse:checked ~ #container {
+    flex-direction: row-reverse;
+}
+#fd_columns:checked ~ #container {
+    flex-direction: column;
+}
+#fd_columns-reverse:checked ~ #container {
+    flex-direction: column-reverse;
+}
+        
+#fd_nowrap:checked ~ #container {
+    flex-wrap: nowrap;
+}
+#fd_wrap:checked ~ #container {
+    flex-wrap: wrap;
+}
+#fd_wrap-reverse:checked ~ #container {
+    flex-wrap: wrap-reverse;
+}
+        
+#ju_flex-start:checked ~ #container {
+    justify-content: flex-start;
+}
+#ju_flex-end:checked ~ #container {
+    justify-content: flex-end;
+}
+#ju_center:checked ~ #container {
+    justify-content: center;
+}
+#ju_space-around:checked ~ #container {
+    justify-content: space-around;
+}
+#ju_space-between:checked ~ #container {
+    justify-content: space-between;
+}
+#ju_space-evenly:checked ~ #container {
+    justify-content: space-evenly;
+}
+        
+#ai_flex-start:checked ~ #container {
+    align-items: flex-start;
+}       
+#ai_flex-end:checked ~ #container {
+    align-items: flex-end;
+}       
+#ai_center:checked ~ #container {
+    align-items: center;
+}       
+#ai_stretch:checked ~ #container {
+    align-items: stretch;
+}       
+#ai_baseline:checked ~ #container {
+    align-items: baseline;
+}       
+        
+#ac_flex-start:checked ~ #container {
+    align-content: flex-start;
+}       
+#ac_flex-end:checked ~ #container {
+    align-content: flex-end;
+}       
+#ac_center:checked ~ #container {
+    align-content: center;
+}       
+#ac_space-around:checked ~ #container {
+    align-content: space-around;
+}       
+#ac_space-between:checked ~ #container {
+    align-content: space-between;
+}       
+#ac_stretch:checked ~ #container {
+    align-content: stretch;
+}       
+        
+label {
+    margin-right: 2vh;
+}
+    </style>
+</head>
+<body>
+
+direction : 
+<input type="radio" name="direction" id="fd_rows" checked> <label for="fd_rows">rows</label>
+<input type="radio" name="direction" id="fd_rows-reverse"> <label for="fd_rows-reverse">rows-reverse</label>
+<input type="radio" name="direction" id="fd_columns"> <label for="fd_columns">columns</label>
+<input type="radio" name="direction" id="fd_columns-reverse"> <label for="fd_columns-reverse">columns-reverse</label> <br>
+    
+wrap :
+<input type="radio" name="wrap" id="fd_nowrap"> <label for="fd_nowrap">nowrap</label>
+<input type="radio" name="wrap" id="fd_wrap" checked> <label for="fd_wrap">wrap</label>
+<input type="radio" name="wrap" id="fd_wrap-reverse"> <label for="fd_wrap-reverse">wrap-reverse</label> <br>
+
+justify-content:
+<input type="radio" name="justify" id="ju_flex-start" checked><label for="ju_flex-start">flex-start</label>
+<input type="radio" name="justify" id="ju_flex-end"><label for="ju_flex-end">flex-end</label>
+<input type="radio" name="justify" id="ju_center"><label for="ju_center">center</label>
+<input type="radio" name="justify" id="ju_space-around"><label for="ju_space-around">space-around</label>
+<input type="radio" name="justify" id="ju_space-between"><label for="ju_space-between">space-between</label>
+<input type="radio" name="justify" id="ju_space-evenly"><label for="ju_space-evenly">space-evenly</label>
+<br>
+
+align-item:
+<input type="radio" name="ai" id="ai_flex-start" checked><label for="ai_flex-start">flex-start</label>
+<input type="radio" name="ai" id="ai_flex-end"><label for="ai_flex-end">flex-end</label>
+<input type="radio" name="ai" id="ai_center"><label for="ai_center">center</label>
+<input type="radio" name="ai" id="ai_stretch"><label for="ai_stretch">stretch</label>
+<input type="radio" name="ai" id="ai_baseline"><label for="ai_baseline">baseline</label>
+<br>
+
+align-content:
+<input type="radio" name="ac" id="ac_flex-start" checked><label for="ac_flex-start">flex-start</label>
+<input type="radio" name="ac" id="ac_flex-end"><label for="ac_flex-end">flex-end</label>
+<input type="radio" name="ac" id="ac_center"><label for="ac_center">center</label>
+<input type="radio" name="ac" id="ac_space-around"><label for="ac_space-around">space-around</label>
+<input type="radio" name="ac" id="ac_space-between"><label for="ac_space-between">space-between</label>
+<input type="radio" name="ac" id="ac_stretch"><label for="ac_stretch">stretch</label>
+<br>
+    
+<div id="container">
+    <div style="width: 20vw; padding: 2vh 0; text-align: center;">(1)</div>
+    <div style="width: 14vw; padding: 4vh 0 2vh 0; text-align: center;">(2)</div>
+    <div style="width: 44vw; padding: 2vh 0 3vh 0; text-align: center;">(3)</div>
+    <div style="width: 30vw; padding: 1vh 0; text-align: center;">(4)</div>
+    <div style="width: 17vw; padding: 2vh 0 4vh 0; text-align: center;">(5)</div>
+    <div style="width: 36vw; padding: 4vh 0; text-align: center;">(6)</div>
+</div>
+    
+</body>
+</html>

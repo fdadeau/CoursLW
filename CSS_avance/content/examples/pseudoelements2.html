@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body {
+    font-family: sans-serif;
+    font-size: 6vh;
+}
+label {
+    display: block;
+    position: relative;
+    width: 50vh;
+    height: 10vh;
+    padding-right: 30vh;
+    margin: 3vh;
+}   
+label::before {
+    content: '';
+    width: 18vh;
+    height: 8vh;
+    right: 0;
+    background-color: red;
+    border-radius: 4vh;
+    position: absolute;
+    transition: color 1s ease-in-out;
+}
+label::after {
+    content: '';
+    width: calc(8vh - 2px);
+    height: calc(8vh - 2px);
+    position: absolute;
+    right: calc(18vh - 8vh);
+    top: 1px;
+    border-radius: 4vh;
+    border: solid 1px #DDD;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    transition: right 0.3s linear;
+}
+input {
+    display: none;
+}
+input:checked + label::before {
+    background-color: #00FF00;
+}
+input:checked + label::after {
+    right: 1px;
+}
+    </style>
+<script src="./includeInIFrame.js"></script>
+</head>
+<body>
+
+<p>Je cherche surtout quelqu'un qui serait : </p>    
+    
+<input type="radio" name="rad" id="cb1">
+    <label for="cb1">intelligent</label>
+    
+<input type="radio" name="rad" id="cb2">
+    <label for="cb2">riche</label>
+
+<input type="radio" name="rad" id="cb3">
+    <label for="cb3">sexy</label>    
+    
+    
+</body>
+</html>

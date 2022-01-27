@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="Cet exemple décrit les manipulations possibles avec la gestion du survol.">
+    <title>Exemple de hover (CSS + JS)</title>
+<style>
+#button {
+    display: block;
+    width: 100px;
+    padding: 10px;
+    text-align: center;
+    background-color: blue;
+    color: white;
+}   
+    
+#button:hover {
+    background-color: red;
+}
+</style>
+<script>
+window.addEventListener("DOMContentLoaded", function(e) {
+    document.getElementById("button").addEventListener("mousemove", function(e) { 
+        this.innerHTML = "Oh yeah!"; 
+    }, false); 
+    document.getElementById("button").addEventListener("mouseout", function(e) { 
+        this.innerHTML = "Come back!";
+        console.log("bye bye");
+    }, false); 
+}, false);     
+</script>
+</head>
+
+<body>
+
+<p>Move the mouse over the button below:</p>    
+    
+<div id="button">Hover me!</div>
+    
+</body>
+
+</html>
+    
